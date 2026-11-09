@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#090914" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta
+      name="description"
+      content="BRICK62 - The ultimate neon brick-breaker arcade experience. 30 stages, 6 worlds, epic bosses, endless mode, and daily challenges."
+    />
+    <title>BRICK62 - Neon Brick Breaker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@600;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/ui/style.css" />
+  </head>
+  <body>
+    <div id="app" class="game-container">
+      <!-- Desktop Ambient Side Decor (Hidden on Mobile) -->
+      <aside class="desktop-side desktop-side-left">
+        <div class="side-brand">
+          <h1>BRICK<span>62</span></h1>
+          <p class="tagline">HYPER KINETIC BREAKER</p>
+        </div>
+        <div class="side-stats-card">
+          <div class="side-stat-row">
+            <span class="lbl">TOTAL STARS</span>
+            <span id="sideTotalStars" class="val text-gold">0 ★</span>
+          </div>
+          <div class="side-stat-row">
+            <span class="lbl">SHARDS</span>
+            <span id="sideTotalShards" class="val text-cyan">150 ⬡</span>
+          </div>
+          <div class="side-stat-row">
+            <span class="lbl">DAILY STREAK</span>
+            <span id="sideDailyStreak" class="val text-magenta">Day 1 🔥</span>
+          </div>
+        </div>
+        <div class="side-controls-help">
+          <h3>CONTROLS</h3>
+          <p><kbd>A</kbd> <kbd>D</kbd> or <kbd>←</kbd> <kbd>→</kbd> Move Paddle</p>
+          <p><kbd>SPACE</kbd> / <kbd>CLICK</kbd> Launch Ball</p>
+          <p><kbd>P</kbd> / <kbd>ESC</kbd> Pause Game</p>
+          <p class="mobile-hint">📱 On Mobile: Touch & Drag to steer, tap to launch!</p>
+        </div>
+      </aside>
+
+      <!-- Center Play Area Frame -->
+      <main class="canvas-viewport" id="canvasViewport">
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- In-Game Minimal HUD Overlay -->
+        <header id="gameHud" class="game-hud hidden">
+          <div class="hud-top-bar">
+            <button id="hudPauseBtn" class="hud-btn" aria-label="Pause" title="Pause">⏸</button>
+            <div class="hud-center-info">
+              <span id="hudStageTitle" class="hud-stage-name">CORE 1</span>
+              <div class="hud-progress-wrap">
+                <div id="hudProgressBar" class="hud-progress-bar"></div>
+              </div>
+              <span id="hudBrickCount" class="hud-brick-counter">120 Bricks</span>
+            </div>
+            <div class="hud-right-actions">
+              <button id="hudMuteBtn" class="hud-btn" aria-label="Toggle Sound" title="Mute/Unmute">🔊</button>
+            </div>
+          </div>
+
+          <div class="hud-bottom-bar">
+            <div class="hud-stat-pill">
+              <span class="pill-label">BALLS</span>
+              <span id="hudBallCount" class="pill-value">1</span>
+            </div>
+            <div id="hudComboPill" class="hud-stat-pill combo-pill hidden">
+              <span class="pill-label">COMBO</span>
+              <span id="hudComboCount" class="pill-value text-gold">x1</span>
+            </div>
+            <div class="hud-stat-pill">
+              <span class="pill-label">ATTEMPT</span>
+              <span id="hudAttemptCount" class="pill-value">#1</span>
+            </div>
+          </div>
+
+          <!-- Active Powerup Indicators -->
+          <div id="hudPowerUpSlot" class="hud-powerup-slot hidden">
+            <span id="hudPowerUpIcon" class="powerup-icon">⚡</span>
+            <div class="powerup-timer-track">
+              <div id="hudPowerUpBar" class="powerup-timer-fill"></div>
+            </div>
+          </div>
+        </header>
+
+        <!-- SCREEN: TITLE / MAIN MENU -->
+        <section id="screenTitle" class="screen-overlay">
+          <div class="screen-content title-content">
+            <div class="neon-logo">
+              <h1 class="logo-title">BRICK<span>62</span></h1>
+              <p class="logo-sub">HYPER KINETIC BREAKER</p>
+            </div>
+            <div class="menu-actions">
+              <button id="btnPlay" class="cyber-btn primary pulse">
+                <span class="btn-text">PLAY CAMPAIGN</span>
+              </button>
+              <button id="btnDaily" class="cyber-btn secondary">
+                <span class="btn-text">DAILY CHALLENGE 🔥</span>
+              </button>
+              <button id="btnEndless" class="cyber-btn secondary">
+                <span class="btn-text">ENDLESS MODE ♾️</span>
+              </button>
+              <div class="menu-row-buttons">
+                <button id="btnShop" class="cyber-btn compact">
+                  <span>UPGRADES</span>
+                </button>
+                <button id="btnStore" class="cyber-btn compact">
+                  <span>STORE</span>
+                </button>
+                <button id="btnLeaderboard" class="cyber-btn compact">
+                  <span>RANKS</span>
+                </button>
+                <button id="btnSettings" class="cyber-btn compact">
+                  <span>SETTINGS</span>
+                </button>
+              </div>
+            </div>
+            <footer class="title-footer">
+              <span id="titleShards" class="badge-shards">150 ⬡</span>
+              <button id="btnAchievements" class="text-link">Milestones</button>
+              <button id="btnPrivacyTerms" class="text-link">Legal</button>
+            </footer>
+          </div>
+        </section>
+
+        <!-- SCREEN: STAGE MAP -->
+        <section id="screenMap" class="screen-overlay hidden">
+          <div class="screen-content map-content">
+            <header class="modal-header">
+              <button id="mapBackBtn" class="back-btn">←</button>
+              <h2>SECTOR SELECT</h2>
+              <div class="header-shards" id="mapShardsDisplay">150 ⬡</div>
+            </header>
+            <div class="world-tabs" id="worldTabs">
+              <!-- World Tabs Generated by JS -->
+            </div>
+            <div class="stages-grid" id="stagesGrid">
+              <!-- Stages 1-30 Buttons Generated by JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN: PRE-STAGE MODAL -->
+        <div id="modalPreStage" class="modal-backdrop hidden">
+          <div class="modal-box">
+            <h3 id="preStageTitle">STAGE 1: PRISM HEART</h3>
+            <p id="preStageWorld" class="pre-stage-world">WORLD 1: CORE</p>
+            <div class="star-goals-list">
+              <h4>STAR OBJECTIVES</h4>
+              <div class="goal-item">
+                <span class="goal-star">★</span>
+                <span>Clear the sector</span>
+              </div>
+              <div class="goal-item">
+                <span class="goal-star">★</span>
+                <span id="preGoalTime">Clear under 60 seconds</span>
+              </div>
+              <div class="goal-item">
+                <span class="goal-star">★</span>
+                <span id="preGoalBonus">Lose zero balls</span>
+              </div>
+            </div>
+            <div class="modal-actions">
+              <button id="btnStartStage" class="cyber-btn primary">LAUNCH</button>
+              <button id="btnClosePreStage" class="cyber-btn secondary">BACK</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN: PAUSE MODAL -->
+        <div id="modalPause" class="modal-backdrop hidden">
+          <div class="modal-box">
+            <h3>PAUSED</h3>
+            <div class="pause-stats">
+              <p>Bricks Remaining: <strong id="pauseBricksLeft">0</strong></p>
+              <p>Current Score: <strong id="pauseScore">0</strong></p>
+            </div>
+            <div class="modal-actions">
+              <button id="btnResume" class="cyber-btn primary">RESUME</button>
+              <button id="btnRestartAttempt" class="cyber-btn secondary">RESTART ATTEMPT</button>
+              <button id="btnQuitToMap" class="cyber-btn secondary">SECTOR MAP</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN: STAGE CLEAR MODAL -->
+        <div id="modalStageClear" class="modal-backdrop hidden">
+          <div class="modal-box victory-box">
+            <h2 class="victory-heading">SECTOR CLEARED!</h2>
+            <div class="stars-display-row" id="clearStarsRow">
+              <span class="star-big star-active">★</span>
+              <span class="star-big star-active">★</span>
+              <span class="star-big">★</span>
+            </div>
+            <div class="clear-stats-table">
+              <div class="stat-line">
+                <span>Score:</span>
+                <strong id="clearScoreVal">12,450</strong>
+              </div>
+              <div class="stat-line">
+                <span>Clear Time:</span>
+                <strong id="clearTimeVal">42.8s</strong>
+              </div>
+              <div class="stat-line">
+                <span>Max Combo:</span>
+                <strong id="clearComboVal">x18</strong>
+              </div>
+              <div class="stat-line shards-line">
+                <span>Shards Earned:</span>
+                <strong id="clearShardsVal" class="text-cyan">+65 ⬡</strong>
+              </div>
+            </div>
+            <div class="ad-offer-card" id="adDoubleShardsCard">
+              <p>Double your shards reward with a short sponsor view!</p>
+              <button id="btnAdDoubleShards" class="cyber-btn gold-glow">
+                ▶ WATCH AD (+2X SHARDS)
+              </button>
+            </div>
+            <div class="modal-actions">
+              <button id="btnNextStage" class="cyber-btn primary">NEXT SECTOR →</button>
+              <button id="btnClearToMap" class="cyber-btn secondary">SECTOR MAP</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN: ATTEMPT FAILED MODAL -->
+        <div id="modalFailed" class="modal-backdrop hidden">
+          <div class="modal-box failed-box">
+            <h2 class="fail-heading">ATTEMPT FAILED</h2>
+            <p id="failMissedText" class="fail-sub">Missed by 14 bricks!</p>
+            <div class="ad-offer-card" id="adReviveCard">
+              <p>Restore 1 ball and continuing this attempt?</p>
+              <button id="btnAdRevive" class="cyber-btn cyan-glow">
+                ▶ REVIVE ATTEMPT (+1 BALL)
+              </button>
+            </div>
+            <div class="modal-actions">
+              <button id="btnRetryAttempt" class="cyber-btn primary pulse">RETRY (ONE TAP)</button>
+              <button id="btnFailToMap" class="cyber-btn secondary">SECTOR MAP</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN: UPGRADES SHOP -->
+        <section id="screenUpgrades" class="screen-overlay hidden">
+          <div class="screen-content shop-content">
+            <header class="modal-header">
+              <button id="upgradesBackBtn" class="back-btn">←</button>
+              <h2>TECH LAB UPGRADES</h2>
+              <div class="header-shards" id="upgradesShardsDisplay">150 ⬡</div>
+            </header>
+            <div class="upgrades-list" id="upgradesList">
+              <!-- Upgrades Generated by JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN: STORE (In-App Purchases) -->
+        <section id="screenStore" class="screen-overlay hidden">
+          <div class="screen-content store-content">
+            <header class="modal-header">
+              <button id="storeBackBtn" class="back-btn">←</button>
+              <h2>CYBER STORE</h2>
+              <button id="btnRestorePurchases" class="text-btn">Restore Purchases</button>
+            </header>
+            <div class="store-notice">
+              <span>🔒 100% Ethical: No pay-to-win. Purchases support continuous updates.</span>
+            </div>
+            <div class="store-products-list" id="storeProductsList">
+              <!-- Products Generated by JS -->
+            </div>
+            <div class="cosmetics-section">
+              <h3>CUSTOM SKINS</h3>
+              <div class="cosmetics-grid" id="cosmeticsGrid">
+                <!-- Cosmetics Generated by JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN: DAILY CHALLENGE -->
+        <section id="screenDaily" class="screen-overlay hidden">
+          <div class="screen-content daily-content">
+            <header class="modal-header">
+              <button id="dailyBackBtn" class="back-btn">←</button>
+              <h2>DAILY CHALLENGE</h2>
+              <div id="dailyStreakBadge" class="streak-badge">🔥 Streak: 1</div>
+            </header>
+            <div class="daily-card">
+              <h3 id="dailyModName">MODIFIER: FIRESTORM</h3>
+              <p id="dailyModDesc">All balls are fireballs! Bricks pierce on contact, but paddle width is -25%.</p>
+              <div class="daily-reward-preview">
+                <span>Daily Reward:</span>
+                <strong class="text-cyan">+100 Shards + Daily Streak</strong>
+              </div>
+            </div>
+            <div class="modal-actions">
+              <button id="btnStartDaily" class="cyber-btn primary">START DAILY RUN</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN: LEADERBOARD / TOURNAMENT -->
+        <section id="screenLeaderboard" class="screen-overlay hidden">
+          <div class="screen-content leaderboard-content">
+            <header class="modal-header">
+              <button id="leaderboardBackBtn" class="back-btn">←</button>
+              <h2>LEADERBOARDS</h2>
+              <div class="leaderboard-tabs">
+                <button id="tabDailyRanks" class="tab-btn active">Daily</button>
+                <button id="tabEndlessRanks" class="tab-btn">Endless</button>
+                <button id="tabTournamentRanks" class="tab-btn">Weekly Cup</button>
+              </div>
+            </header>
+            <div class="leaderboard-table-wrap">
+              <table class="leaderboard-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>PILOT</th>
+                    <th>SCORE</th>
+                    <th>TIME</th>
+                  </tr>
+                </thead>
+                <tbody id="leaderboardBody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN: SETTINGS -->
+        <section id="screenSettings" class="screen-overlay hidden">
+          <div class="screen-content settings-content">
+            <header class="modal-header">
+              <button id="settingsBackBtn" class="back-btn">←</button>
+              <h2>SETTINGS</h2>
+            </header>
+            <div class="settings-group">
+              <h3>AUDIO</h3>
+              <div class="setting-row">
+                <label>Mute All Audio</label>
+                <input type="checkbox" id="settingMute" />
+              </div>
+              <div class="setting-row">
+                <label>SFX Volume</label>
+                <input type="range" id="settingSfx" min="0" max="1" step="0.05" />
+              </div>
+              <div class="setting-row">
+                <label>Music Volume</label>
+                <input type="range" id="settingMusic" min="0" max="1" step="0.05" />
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3>ACCESSIBILITY & JUICE</h3>
+              <div class="setting-row">
+                <label>Screen Shake Intensity</label>
+                <input type="range" id="settingShake" min="0" max="1" step="0.1" />
+              </div>
+              <div class="setting-row">
+                <label>Haptic Vibration</label>
+                <input type="checkbox" id="settingHaptics" checked />
+              </div>
+              <div class="setting-row">
+                <label>Reduce Motion</label>
+                <input type="checkbox" id="settingReduceMotion" />
+              </div>
+              <div class="setting-row">
+                <label>Reduce Flashes</label>
+                <input type="checkbox" id="settingReduceFlash" />
+              </div>
+              <div class="setting-row">
+                <label>Colorblind Mode</label>
+                <select id="settingColorblind">
+                  <option value="none">Normal (Vibrant)</option>
+                  <option value="protanopia">Protanopia (Red-Weak)</option>
+                  <option value="deuteranopia">Deuteranopia (Green-Weak)</option>
+                  <option value="tritanopia">Tritanopia (Blue-Weak)</option>
+                  <option value="high_contrast">High Contrast</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3>DATA & PRIVACY</h3>
+              <div class="setting-row buttons-row">
+                <button id="btnExportSave" class="cyber-btn compact">Export Save</button>
+                <button id="btnDeleteData" class="cyber-btn compact danger">Reset Progress</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN: ACHIEVEMENTS -->
+        <section id="screenAchievements" class="screen-overlay hidden">
+          <div class="screen-content achievements-content">
+            <header class="modal-header">
+              <button id="achievementsBackBtn" class="back-btn">←</button>
+              <h2>MILESTONES & BADGES</h2>
+            </header>
+            <div class="achievements-list" id="achievementsList">
+              <!-- Achievements Generated by JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- LEGAL & PRIVACY MODAL -->
+        <div id="modalLegal" class="modal-backdrop hidden">
+          <div class="modal-box legal-box">
+            <h3>TERMS & PRIVACY</h3>
+            <div class="legal-scroll-text">
+              <h4>1. Privacy Policy</h4>
+              <p>BRICK62 respects your privacy. The game operates offline-first using client-side localStorage. No personal data, tracking cookies, or profiling are collected without explicit player consent.</p>
+              <h4>2. Free-To-Play & Monetization</h4>
+              <p>All core gameplay stages and features are 100% playable for free. Rewarded video ads are strictly optional and player-initiated. In-app purchases are processed securely by Dodo Payments as the Merchant of Record.</p>
+              <h4>3. Tournament & Sweepstakes Official Rules</h4>
+              <p>NO PURCHASE NECESSARY. A purchase will not increase your chances of winning. Open only to legal residents of permitted jurisdictions who are 18 years of age or older. Void where prohibited by law.</p>
+            </div>
+            <button id="btnCloseLegal" class="cyber-btn primary">CLOSE</button>
+          </div>
+        </div>
+
+        <!-- GDPR / CCPA PRIVACY CONSENT BANNER -->
+        <div id="consentBanner" class="consent-banner hidden">
+          <div class="consent-inner">
+            <p>We value your privacy. We use minimal technical storage to save your game progress. You can optionally allow non-personalized analytics to help us balance stages.</p>
+            <div class="consent-buttons">
+              <button id="btnConsentAccept" class="cyber-btn compact primary">Accept All</button>
+              <button id="btnConsentEssential" class="cyber-btn compact secondary">Essential Only</button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Desktop Ambient Right Side Decor -->
+      <aside class="desktop-side desktop-side-right">
+        <div class="side-info-card">
+          <h4>NEXT OBJECTIVE</h4>
+          <p id="sideNextObjective" class="text-cyan">Clear Sector 1 with 3 Stars</p>
+        </div>
+        <div class="side-active-skins">
+          <h4>LOADOUT</h4>
+          <div class="loadout-item">
+            <span>Paddle:</span>
+            <strong id="sidePaddleSkinName">Classic Neon</strong>
+          </div>
+          <div class="loadout-item">
+            <span>Photon Core:</span>
+            <strong id="sideBallSkinName">White Light</strong>
+          </div>
+        </div>
+        <div class="side-ad-free-badge hidden" id="sideAdFreeBadge">
+          <span>👑 AD-FREE SUPPORTER</span>
+        </div>
+      </aside>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
