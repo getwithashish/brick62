@@ -39,7 +39,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Create checkout session using Dodo Payments SDK
     const session = await client.checkoutSessions.create({
-      product_id: product.dodoProductId,
+      product_cart: [{ product_id: product.dodoProductId, quantity: 1 }],
       metadata: {
         playerId,
         productId,
@@ -50,7 +50,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     return res.status(200).json({
       checkoutUrl: (session as any).checkout_url || (session as any).url,
-      sessionId: (session as any).id,
+      sessionId: (session as any).session_id || (session as any).id,
     });
   } catch (error: any) {
     console.error('Error creating Dodo Payments checkout session:', error);
