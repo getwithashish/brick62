@@ -1,5 +1,5 @@
-import { simulateReplay } from '../../src/core/input_log';
-import { ScoreSubmissionSchema } from './schemas';
+import { simulateReplay } from '../../src/core/input_log.js';
+import { ScoreSubmissionSchema } from './schemas.js';
 import { z } from 'zod';
 
 export type ScoreSubmission = z.infer<typeof ScoreSubmissionSchema>;

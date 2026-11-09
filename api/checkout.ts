@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { CheckoutRequestSchema } from './_lib/schemas';
-import { GAME_BALANCE } from '../src/config/balance';
+import { CheckoutRequestSchema } from './_lib/schemas.js';
+import { GAME_BALANCE } from '../src/config/balance.js';
 import { DodoPayments } from 'dodopayments';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

@@ -1,6 +1,6 @@
-import { InputFrame, RunReplay } from './types';
-import { GameSimulation, SimOptions } from './sim';
-import { createStage } from './stages/stage_data';
+import { InputFrame, RunReplay } from './types.js';
+import { GameSimulation, SimOptions } from './sim.js';
+import { createStage } from './stages/stage_data.js';
 
 export class InputRecorder {
   private frames: InputFrame[] = [];

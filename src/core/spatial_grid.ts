@@ -1,4 +1,4 @@
-import { Brick } from './types';
+import { Brick } from './types.js';
 
 export class SpatialGrid {
   public cellSize: number;

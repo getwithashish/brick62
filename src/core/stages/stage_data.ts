@@ -1,6 +1,6 @@
-import { Brick, BrickType, BossState, StageDefinition, GravityWell } from '../types';
-import { PRNG } from '../rng';
-import { GAME_BALANCE } from '../../config/balance';
+import { Brick, BrickType, BossState, StageDefinition, GravityWell } from '../types.js';
+import { PRNG } from '../rng.js';
+import { GAME_BALANCE } from '../../config/balance.js';
 
 /**
  * Shape mask formulas to generate dense pixel-art brick layouts.

@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getDb } from './_lib/db';
-import { ScoreSubmissionSchema } from './_lib/schemas';
-import { validateRun } from './_lib/anti_cheat';
+import { getDb } from './_lib/db.js';
+import { ScoreSubmissionSchema } from './_lib/schemas.js';
+import { validateRun } from './_lib/anti_cheat.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {

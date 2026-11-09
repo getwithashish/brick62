@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getDb } from '../_lib/db';
-import { GAME_BALANCE } from '../../src/config/balance';
+import { getDb } from '../_lib/db.js';
+import { GAME_BALANCE } from '../../src/config/balance.js';
 import { DodoPayments } from 'dodopayments';
 
 // Helper to buffer raw body for signature verification in Vercel

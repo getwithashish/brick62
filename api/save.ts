@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getDb } from './_lib/db';
-import { SaveDataSchema } from './_lib/schemas';
+import { getDb } from './_lib/db.js';
+import { SaveDataSchema } from './_lib/schemas.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const db = await getDb();

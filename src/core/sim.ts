@@ -12,10 +12,10 @@ import {
   StageDefinition,
   StageEndStats,
   GravityWell,
-} from './types';
-import { SpatialGrid } from './spatial_grid';
-import { PRNG } from './rng';
-import { GAME_BALANCE } from '../config/balance';
+} from './types.js';
+import { SpatialGrid } from './spatial_grid.js';
+import { PRNG } from './rng.js';
+import { GAME_BALANCE } from '../config/balance.js';
 
 export interface SimOptions {
   seed?: number;
