@@ -292,7 +292,7 @@ export const GAME_BALANCE = {
   products: [
     {
       productId: 'remove_ads',
-      dodoProductId: 'p_prod_remove_ads',
+      dodoProductId: 'pdt_0NrYqJjqKm89TmFKA0XWV',
       name: 'Ad-Free Forever',
       description: 'Removes all interstitial and banner ads forever. Plus unlocks Cyber Gold paddle skin.',
       priceUsd: 3.99,
@@ -301,7 +301,7 @@ export const GAME_BALANCE = {
     },
     {
       productId: 'starter_pack',
-      dodoProductId: 'p_prod_starter_pack',
+      dodoProductId: 'pdt_0NrYqJmfbnfAeQ34EB9ZU',
       name: 'Neon Starter Pack',
       description: '5,000 Shards + Exclusive Rainbow Ball Trail + Remove Ads.',
       priceUsd: 5.99,
@@ -310,7 +310,7 @@ export const GAME_BALANCE = {
     },
     {
       productId: 'shards_pile',
-      dodoProductId: 'p_prod_shards_2500',
+      dodoProductId: 'pdt_0NrYqJrOiRnV9gFT5rFUe',
       name: 'Pile of Shards',
       description: '2,500 Shards to fast-track your upgrades.',
       priceUsd: 1.99,
@@ -319,7 +319,7 @@ export const GAME_BALANCE = {
     },
     {
       productId: 'shards_vault',
-      dodoProductId: 'p_prod_shards_10000',
+      dodoProductId: 'pdt_0NrYqJtTvUWk7jvo2PMwU',
       name: 'Vault of Shards',
       description: '10,000 Shards (+2,000 bonus shards!).',
       priceUsd: 6.99,
@@ -328,7 +328,7 @@ export const GAME_BALANCE = {
     },
     {
       productId: 'season_pass',
-      dodoProductId: 'p_prod_season_pass_1',
+      dodoProductId: 'pdt_0NrYqJvRWPAaa3GbJUtiN',
       name: 'Season 1 Pass',
       description: 'Unlock 30 tiers of premium cosmetic skins, custom audio packs, and daily streak insurance.',
       priceUsd: 4.99,
